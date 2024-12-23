@@ -1,0 +1,2104 @@
+9.Aim
+To create a new GitHub repository, initialize it with a README.md file, make modifications to the file, and push the changes back to GitHub.
+
+Procedure
+Create a GitHub repository:
+
+Go to GitHub.
+Click "New Repository."
+Name the repository, initialize with a README.md file, and click "Create Repository."
+Clone the repository to your local machine:
+
+Copy the repository URL.
+Open the terminal and run:
+bash
+Copy code
+git clone <repository-url>
+Navigate to the cloned directory:
+bash
+Copy code
+cd <repository-name>
+Edit the README.md file:
+
+Open README.md in a text editor.
+Add a project description (e.g., "This is a personal project to demonstrate Git/GitHub workflows.").
+Stage, commit, and push the changes:
+
+Stage the changes:
+bash
+Copy code
+git add README.md
+Commit the changes:
+bash
+Copy code
+git commit -m "Added project description to README.md"
+Push the changes to GitHub:
+bash
+Copy code
+git push origin main
+Result
+A new GitHub repository was successfully created, cloned, updated with a project description in README.md, and the changes were pushed back to GitHub.
+
+
+
+10.Aim:To demonstrate working with Git branches and resolving merge conflicts while collaborating on a project.
+
+Procedure
+Clone a shared repository to your local machine:
+
+bash
+Copy code
+git clone <repository-url>
+cd <repository-name>
+Create a new branch and switch to it:
+
+bash
+Copy code
+git checkout -b feature-branch
+Make changes to a file:
+
+Open the file (e.g., README.md or code file) in a text editor.
+Make updates or modifications.
+Save the changes.
+Commit your changes:
+
+bash
+Copy code
+git add <file-name>
+git commit -m "Updated README or modified function"
+Push the changes to the remote repository:
+
+bash
+Copy code
+git push origin feature-branch
+Before merging, pull the latest changes from the main branch:
+
+bash
+Copy code
+git checkout main
+git pull origin main
+Switch back to your feature branch:
+
+bash
+Copy code
+git checkout feature-branch
+Merge the main branch into your feature branch:
+
+bash
+Copy code
+git merge main
+If there are conflicts, resolve them manually:
+
+Open the conflicting files.
+Resolve conflicts by keeping or editing the relevant sections.
+Mark conflicts as resolved:
+bash
+Copy code
+git add <conflicting-file>
+Commit the resolved merge:
+
+bash
+Copy code
+git commit -m "Resolved merge conflicts"
+Push your feature branch with the merged changes to GitHub:
+
+bash
+Copy code
+git push origin feature-branch
+Create a pull request:
+
+Go to the GitHub repository.
+Open a pull request to merge the feature-branch into the main branch.
+Result
+The feature branch was successfully created, changes were made and committed, conflicts were resolved, and the branch was merged into the main branch. A pull request was submitted for final review and approval.
+
+
+
+
+11.Aim
+To create a static website, containerize it using Docker with Nginx, and serve it in a browser.
+
+Procedure
+Create a Simple Static Website (index.html file) with basic HTML content:
+
+Create a file named index.html with the following content:
+html
+Copy code
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Static Website</title>
+</head>
+<body>
+    <h1>Welcome to My Static Website</h1>
+    <p>This is a basic static HTML page served using Docker and Nginx.</p>
+</body>
+</html>
+Write/create a Dockerfile to serve the website using Nginx:
+
+Create a file named Dockerfile with the following content:
+Dockerfile
+Copy code
+# Use the official Nginx image as the base image
+FROM nginx:alpine
+
+# Copy the static website files to the Nginx HTML directory
+COPY index.html /usr/share/nginx/html/
+
+# Expose port 80
+EXPOSE 80
+Build the Docker Image:
+
+bash
+Copy code
+docker build -t static-website .
+Run the container:
+
+bash
+Copy code
+docker run -d -p 8080:80 --name static-website-container static-website
+Access the Website using a Browser:
+
+Open your browser and navigate to http://localhost:8080.
+Result
+A static website was successfully created, containerized using Docker with Nginx, and served in a browser. The website is accessible via http://localhost:8080.
+
+
+
+
+
+
+12.Aim
+To create a simple Flask API, containerize the application using Docker, build and push the image to Docker Hub, and deploy it using Kubernetes.
+
+Procedure
+1. Create a Simple Flask API (app.py)
+Create a file named app.py with the following content:
+
+python
+Copy code
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return jsonify(message="Welcome to the Flask API!")
+
+@app.route('/health')
+def health():
+    return jsonify(status="Healthy")
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+2. Containerize the Flask App using Dockerfile
+Create a file named Dockerfile with the following content:
+
+Dockerfile
+Copy code
+# Use the official Python image
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the app files
+COPY app.py /app/
+
+# Install Flask
+RUN pip install flask
+
+# Expose port 5000
+EXPOSE 5000
+
+# Run the Flask app
+CMD ["python", "app.py"]
+3. Build the Image using Docker
+Run the following commands to build the Docker image:
+
+bash
+Copy code
+docker build -t flask-api:latest .
+4. Push the Image to Docker Hub
+Log in to Docker Hub:
+bash
+Copy code
+docker login
+Tag the image:
+bash
+Copy code
+docker tag flask-api:latest <your-dockerhub-username>/flask-api:latest
+Push the image:
+bash
+Copy code
+docker push <your-dockerhub-username>/flask-api:latest
+5. Create Kubernetes Manifests
+Deployment YAML (deployment.yaml):
+
+yaml
+Copy code
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      containers:
+      - name: flask-api
+        image: <your-dockerhub-username>/flask-api:latest
+        ports:
+        - containerPort: 5000
+Service YAML (service.yaml):
+
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-api-service
+spec:
+  type: NodePort
+  selector:
+    app: flask-api
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+    nodePort: 30007
+6. Apply the Manifests and Access the API via NodePort
+Apply the manifests:
+
+bash
+Copy code
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+Verify the pods and service status:
+
+bash
+Copy code
+kubectl get pods
+kubectl get svc
+Access the API:
+Open your browser or use curl to test the API:
+
+arduino
+Copy code
+http://<node-ip>:30007
+Result
+A simple Flask API was successfully created, containerized with Docker, pushed to Docker Hub, and deployed using Kubernetes. The API is accessible via the NodePort at http://<node-ip>:30007.
+
+
+
+
+
+13.Aim
+To set up a CI/CD pipeline using Jenkins to automate the building, testing, and deployment of a containerized application.
+
+Procedure
+1. Set up Jenkins on a Local Machine or Server
+Install Jenkins:
+bash
+Copy code
+sudo apt update
+sudo apt install openjdk-11-jre -y
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install jenkins -y
+Start Jenkins:
+bash
+Copy code
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+Access Jenkins via http://<your-ip>:8080, unlock it using the initial password from /var/lib/jenkins/secrets/initialAdminPassword, and install recommended plugins.
+2. Create a Dockerfile to Containerize a Sample Application
+Create a simple Python application and Dockerfile:
+
+app.py:
+
+python
+Copy code
+print("Hello, Jenkins CI/CD Pipeline!")
+Dockerfile:
+
+Dockerfile
+Copy code
+FROM python:3.9-slim
+COPY app.py /app/app.py
+WORKDIR /app
+CMD ["python", "app.py"]
+3. Write a Jenkinsfile to Automate the Process
+Create a Jenkinsfile to define the CI/CD pipeline:
+
+groovy
+Copy code
+pipeline {
+    agent any
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/<your-username>/<your-repo>.git'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t <your-dockerhub-username>/sample-app:latest .'
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    sh 'docker run <your-dockerhub-username>/sample-app:latest'
+                }
+            }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        sh 'docker push <your-dockerhub-username>/sample-app:latest'
+                    }
+                }
+            }
+        }
+        stage('Deploy to Cloud') {
+            steps {
+                script {
+                    // Add commands for deploying to AWS/GCP
+                    echo 'Deploying to cloud...'
+                }
+            }
+        }
+    }
+}
+4. Configure Jenkins to Trigger Builds on Code Commits or Pull Requests
+Go to Jenkins dashboard and create a new Pipeline project.
+In the pipeline configuration:
+Select "Pipeline script from SCM."
+Provide the Git repository URL and branch.
+Set the Jenkinsfile path (Jenkinsfile).
+Set up a Git webhook to trigger Jenkins builds:
+Go to your GitHub repository -> Settings -> Webhooks -> Add webhook.
+Use the Jenkins URL with /github-webhook/ endpoint.
+Select "Just the push event."
+Result
+A CI/CD pipeline was successfully set up using Jenkins. The pipeline automatically builds a Docker image, runs tests, pushes the image to Docker Hub, and deploys it to a cloud platform upon code commits or pull requests.
+
+
+
+
+
+14.Aim
+To implement Continuous Deployment using GitHub Actions for a Dockerized application, automating the build, image push, and deployment to a cloud platform.
+
+Procedure
+1. Set up a GitHub Repository and Push a Simple Dockerized Application
+Create a new GitHub repository (e.g., dockerized-app).
+
+Write a simple Flask application:
+
+app.py:
+
+python
+Copy code
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello from GitHub Actions CI/CD Pipeline!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+Dockerfile:
+
+Dockerfile
+Copy code
+FROM python:3.9-slim
+COPY app.py /app/app.py
+WORKDIR /app
+RUN pip install flask
+CMD ["python", "app.py"]
+Push the files to the GitHub repository:
+
+bash
+Copy code
+git init
+git remote add origin https://github.com/<your-username>/dockerized-app.git
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+2. Create a GitHub Actions Workflow
+Add a .github/workflows directory in the repository.
+
+Create a workflow file: deploy.yml:
+
+yaml
+Copy code
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t <your-dockerhub-username>/dockerized-app:latest .
+        docker push <your-dockerhub-username>/dockerized-app:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to AWS ECS
+      run: |
+        # Add AWS CLI deployment commands here
+        echo "Deploying to AWS ECS..."
+Configure GitHub repository secrets:
+
+Go to Repository -> Settings -> Secrets and variables -> Actions.
+Add DOCKER_USERNAME and DOCKER_PASSWORD for Docker Hub.
+3. Automate Deployment to a Cloud Platform
+Use AWS ECS (or any preferred platform) for deployment.
+Example deployment script in the deploy job:
+bash
+Copy code
+aws ecs update-service --cluster <your-cluster-name> --service <your-service-name> --force-new-deployment
+4. Test the CI/CD Pipeline
+Push a code change (e.g., update app.py with a new route):
+
+python
+Copy code
+@app.route('/about')
+def about():
+    return "About Page"
+Commit and push the changes:
+
+bash
+Copy code
+git add app.py
+git commit -m "Add about route"
+git push
+Verify:
+
+Check the Actions tab in GitHub for workflow execution.
+Confirm the new version of the app is deployed to the cloud.
+Result
+The CI/CD pipeline was successfully implemented using GitHub Actions. It builds the Dockerized application, pushes the image to Docker Hub, and deploys it to a cloud platform automatically upon code changes.
+
+
+
+
+
+15.Aim
+To set up a GitHub repository, implement version control, and manage branches, pull requests, and documentation for a team project.
+
+Procedure
+1. Set up a Repository for a Team Project
+Log in to your GitHub account.
+Create a new repository:
+Go to + -> New Repository.
+Name the repository (e.g., team-project).
+Select Public or Private visibility.
+Check Initialize this repository with a README.
+Clone the repository locally:
+bash
+Copy code
+git clone https://github.com/<your-username>/team-project.git
+cd team-project
+2. Create Branches for Individual Modules
+Create and switch to a new branch for each module:
+bash
+Copy code
+git checkout -b module-1
+Make changes related to the module (e.g., add code files).
+Commit and push the branch to the remote repository:
+bash
+Copy code
+git add .
+git commit -m "Add code for module-1"
+git push -u origin module-1
+3. Merge Branches with Pull Requests After Code Reviews
+Open GitHub and go to the repository.
+Navigate to the Pull Requests tab.
+Click New Pull Request.
+Select the branch you worked on (e.g., module-1) and compare it with the main branch.
+Request team members for a code review.
+Once approved, merge the pull request.
+4. Resolve Conflicts During Branch Merging
+If conflicts arise during merging:
+
+Pull the latest changes from the main branch:
+bash
+Copy code
+git checkout module-1
+git pull origin main
+Resolve conflicts in the conflicting files manually.
+Mark conflicts as resolved:
+bash
+Copy code
+git add <conflicting-file>
+Commit the resolved merge:
+bash
+Copy code
+git commit -m "Resolve merge conflicts in module-1"
+git push
+Proceed with merging the branch.
+
+5. Document the Workflow Using the README File
+Update the README.md file with workflow details:
+Add a description of the project.
+Include steps for branch creation, merging, and conflict resolution.
+Add contribution guidelines for team members.
+Example:
+
+markdown
+Copy code
+# Team Project Repository
+
+## Workflow  
+1. Create a branch for each module: `git checkout -b <branch-name>`.  
+2. Push changes to the respective branch: `git push -u origin <branch-name>`.  
+3. Submit a pull request for code reviews and approval.  
+4. Resolve conflicts if any and merge branches.  
+
+## Contribution Guidelines  
+- Use descriptive commit messages.  
+- Request a review before merging.  
+- Ensure proper testing of code before pushing.  
+6. Submit the Repository Link
+Once all tasks are complete, share the repository link with the team:
+Example: https://github.com/<your-username>/team-project
+Result
+A GitHub repository was successfully created with version control. Individual branches were managed, merged after code reviews, conflicts were resolved, and the workflow was documented in the README file.
+
+
+
+
+
+16.Aim
+To containerize a Python Flask application for a "To-Do" list using Docker and deploy it locally and to Docker Hub.
+
+Procedure
+1. Write a Simple Python Flask Application for a "To-Do" List
+Create a app.py file with the following code:
+
+python
+Copy code
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+tasks = []
+
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    return jsonify({"tasks": tasks}), 200
+
+@app.route('/tasks', methods=['POST'])
+def add_task():
+    data = request.get_json()
+    task = {"id": len(tasks) + 1, "title": data.get("title")}
+    tasks.append(task)
+    return jsonify({"message": "Task added successfully!", "task": task}), 201
+
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    global tasks
+    tasks = [task for task in tasks if task['id'] != task_id]
+    return jsonify({"message": "Task deleted successfully!"}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+2. Create a Dockerfile to Containerize the Application
+Create a Dockerfile in the same directory:
+
+dockerfile
+Copy code
+# Base image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy application files
+COPY app.py /app
+COPY requirements.txt /app
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the application
+CMD ["python", "app.py"]
+Create a requirements.txt file for dependencies:
+
+plaintext
+Copy code
+flask
+3. Build and Run the Docker Container Locally
+Build the Docker image:
+bash
+Copy code
+docker build -t flask-todo-app .
+Run the container:
+bash
+Copy code
+docker run -d -p 5000:5000 flask-todo-app
+Verify the container is running:
+bash
+Copy code
+docker ps
+4. Test the Application’s Functionality Inside the Container
+Use a browser or API client (e.g., Postman) to test the endpoints:
+
+GET tasks:
+URL: http://localhost:5000/tasks
+POST tasks:
+URL: http://localhost:5000/tasks
+Body:
+json
+Copy code
+{
+  "title": "Learn Docker"
+}
+DELETE task:
+URL: http://localhost:5000/tasks/1
+Confirm the application works as expected.
+
+5. Push the Docker Image to Docker Hub
+Log in to Docker Hub:
+bash
+Copy code
+docker login
+Tag the image:
+bash
+Copy code
+docker tag flask-todo-app <your-dockerhub-username>/flask-todo-app
+Push the image:
+bash
+Copy code
+docker push <your-dockerhub-username>/flask-todo-app
+Submit
+Dockerfile:
+dockerfile
+Copy code
+# Base image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy application files
+COPY app.py /app
+COPY requirements.txt /app
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the application
+CMD ["python", "app.py"]
+Screenshots: Include screenshots of:
+Application endpoints tested via Postman or browser.
+Running Docker container (docker ps).
+Docker Hub repository showing the uploaded image.
+Result
+A Python Flask application for a "To-Do" list was successfully containerized, tested locally, and the Docker image was pushed to Docker Hub.
+
+
+
+
+
+
+17.Aim
+To demonstrate the process of creating a Docker image for a static HTML website, pushing it to Docker Hub, pulling it on another machine, and running it.
+
+Procedure
+1. Create a Docker Image for a Static HTML Website
+Create the index.html file:
+
+html
+Copy code
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Static Website</title>
+</head>
+<body>
+    <h1>Welcome to My Static Website</h1>
+    <p>This is a simple static HTML page served using Docker.</p>
+</body>
+</html>
+Create the Dockerfile:
+
+dockerfile
+Copy code
+# Base image
+FROM nginx:alpine
+
+# Copy the HTML file to the Nginx container
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expose the default Nginx port
+EXPOSE 80
+Build the Docker image:
+
+bash
+Copy code
+docker build -t static-website .
+Verify the image creation:
+
+bash
+Copy code
+docker images
+2. Tag and Push the Image to Docker Hub
+Tag the image for Docker Hub:
+
+bash
+Copy code
+docker tag static-website <your-dockerhub-username>/static-website:latest
+Log in to Docker Hub:
+
+bash
+Copy code
+docker login
+Push the image to Docker Hub:
+
+bash
+Copy code
+docker push <your-dockerhub-username>/static-website:latest
+Verify the image is available on Docker Hub by checking your repository.
+
+3. Pull the Image from Docker Hub and Run it on Another Machine
+Pull the image on another machine:
+
+bash
+Copy code
+docker pull <your-dockerhub-username>/static-website:latest
+Run the container:
+
+bash
+Copy code
+docker run -d -p 8080:80 <your-dockerhub-username>/static-website:latest
+Verify the website is accessible by visiting http://localhost:8080 on the browser of the second machine.
+
+Commands
+Build the Docker Image:
+bash
+Copy code
+docker build -t static-website .
+Tag the Image for Docker Hub:
+bash
+Copy code
+docker tag static-website <your-dockerhub-username>/static-website:latest
+Push the Image to Docker Hub:
+bash
+Copy code
+docker push <your-dockerhub-username>/static-website:latest
+Pull the Image from Docker Hub:
+bash
+Copy code
+docker pull <your-dockerhub-username>/static-website:latest
+Run the Container:
+bash
+Copy code
+docker run -d -p 8080:80 <your-dockerhub-username>/static-website:latest
+Submit
+Docker Commands:
+Include the commands above for building, tagging, pushing, pulling, and running the Docker image.
+
+Screenshots:
+
+Docker image built locally.
+Image pushed to Docker Hub (Docker Hub repository).
+Image pulled on another machine.
+Website running on the second machine (http://localhost:8080).
+Result
+A static HTML website was successfully containerized, the Docker image was pushed to Docker Hub, and the image was pulled and run on another machine.
+
+
+
+
+
+
+18.Aim
+To deploy a multi-container application consisting of a frontend, backend, and database using Kubernetes, and manage its scaling and monitoring.
+
+Procedure
+1. Create a Multi-Container Application with Frontend, Backend, and Database
+Frontend: A simple static website or application (e.g., an HTML page or a React app).
+Backend: A simple API (e.g., a Flask or Node.js API).
+Database: A simple relational database (e.g., MySQL or PostgreSQL).
+For example, let's assume:
+
+Frontend: Static HTML page served using Nginx.
+Backend: Flask app with basic API.
+Database: MySQL database for storing data.
+Directory Structure
+csharp
+Copy code
+my-app/
+    frontend/
+        Dockerfile
+        index.html
+    backend/
+        Dockerfile
+        app.py
+    db/
+        Dockerfile
+        init.sql
+    kubernetes/
+        deployment.yaml
+        service.yaml
+Frontend - Dockerfile
+dockerfile
+Copy code
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+Backend - Dockerfile
+dockerfile
+Copy code
+FROM python:3.8
+WORKDIR /app
+COPY app.py /app/
+RUN pip install flask
+EXPOSE 5000
+CMD ["python", "app.py"]
+Backend - app.py (Flask API)
+python
+Copy code
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello, this is the backend API!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+Database - Dockerfile
+dockerfile
+Copy code
+FROM mysql:5.7
+COPY init.sql /docker-entrypoint-initdb.d/
+Database - init.sql
+sql
+Copy code
+CREATE DATABASE example_db;
+USE example_db;
+CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50));
+2. Define Kubernetes YAML Files for Deployment and Services
+Kubernetes Deployment YAML (deployment.yaml)
+yaml
+Copy code
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: <your-dockerhub-username>/frontend:latest
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: <your-dockerhub-username>/backend:latest
+          ports:
+            - containerPort: 5000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "rootpassword"
+          ports:
+            - containerPort: 3306
+Kubernetes Service YAML (service.yaml)
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+3. Deploy the Application Using kubectl Commands
+Apply the Kubernetes deployment and service configurations:
+
+bash
+Copy code
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+Verify the deployment:
+
+bash
+Copy code
+kubectl get deployments
+kubectl get services
+kubectl get pods
+4. Monitor the Pods and Services Status
+Check the status of the pods:
+
+bash
+Copy code
+kubectl get pods
+Check the status of the services:
+
+bash
+Copy code
+kubectl get services
+If the service type is LoadBalancer, the external IP will be assigned for accessing the application.
+
+5. Scale the Frontend Container to Handle Increased Load
+Scale the frontend deployment:
+
+bash
+Copy code
+kubectl scale deployment frontend-deployment --replicas=5
+Verify the scaling:
+
+bash
+Copy code
+kubectl get pods
+6. Submit YAML Files and Screenshots of the Kubernetes Dashboard
+Submit the deployment.yaml and service.yaml files.
+Take screenshots of the Kubernetes dashboard or terminal showing the status of the pods and services after scaling.
+Commands Summary
+Apply Deployments and Services:
+
+bash
+Copy code
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+Check Pods, Services, and Deployments:
+
+bash
+Copy code
+kubectl get pods
+kubectl get services
+kubectl get deployments
+Scale the Frontend Deployment:
+
+bash
+Copy code
+kubectl scale deployment frontend-deployment --replicas=5
+Result
+The multi-container application consisting of a frontend, backend, and database is successfully deployed using Kubernetes. The frontend was scaled to handle increased load, and the status of the application was monitored through Kubernetes commands.Aim
+To deploy a multi-container application consisting of a frontend, backend, and database using Kubernetes, and manage its scaling and monitoring.
+
+Procedure
+1. Create a Multi-Container Application with Frontend, Backend, and Database
+Frontend: A simple static website or application (e.g., an HTML page or a React app).
+Backend: A simple API (e.g., a Flask or Node.js API).
+Database: A simple relational database (e.g., MySQL or PostgreSQL).
+For example, let's assume:
+
+Frontend: Static HTML page served using Nginx.
+Backend: Flask app with basic API.
+Database: MySQL database for storing data.
+Directory Structure
+csharp
+Copy code
+my-app/
+    frontend/
+        Dockerfile
+        index.html
+    backend/
+        Dockerfile
+        app.py
+    db/
+        Dockerfile
+        init.sql
+    kubernetes/
+        deployment.yaml
+        service.yaml
+Frontend - Dockerfile
+dockerfile
+Copy code
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+Backend - Dockerfile
+dockerfile
+Copy code
+FROM python:3.8
+WORKDIR /app
+COPY app.py /app/
+RUN pip install flask
+EXPOSE 5000
+CMD ["python", "app.py"]
+Backend - app.py (Flask API)
+python
+Copy code
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello, this is the backend API!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+Database - Dockerfile
+dockerfile
+Copy code
+FROM mysql:5.7
+COPY init.sql /docker-entrypoint-initdb.d/
+Database - init.sql
+sql
+Copy code
+CREATE DATABASE example_db;
+USE example_db;
+CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50));
+2. Define Kubernetes YAML Files for Deployment and Services
+Kubernetes Deployment YAML (deployment.yaml)
+yaml
+Copy code
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: <your-dockerhub-username>/frontend:latest
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: <your-dockerhub-username>/backend:latest
+          ports:
+            - containerPort: 5000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "rootpassword"
+          ports:
+            - containerPort: 3306
+Kubernetes Service YAML (service.yaml)
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+3. Deploy the Application Using kubectl Commands
+Apply the Kubernetes deployment and service configurations:
+
+bash
+Copy code
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+Verify the deployment:
+
+bash
+Copy code
+kubectl get deployments
+kubectl get services
+kubectl get pods
+4. Monitor the Pods and Services Status
+Check the status of the pods:
+
+bash
+Copy code
+kubectl get pods
+Check the status of the services:
+
+bash
+Copy code
+kubectl get services
+If the service type is LoadBalancer, the external IP will be assigned for accessing the application.
+
+5. Scale the Frontend Container to Handle Increased Load
+Scale the frontend deployment:
+
+bash
+Copy code
+kubectl scale deployment frontend-deployment --replicas=5
+Verify the scaling:
+
+bash
+Copy code
+kubectl get pods
+6. Submit YAML Files and Screenshots of the Kubernetes Dashboard
+Submit the deployment.yaml and service.yaml files.
+Take screenshots of the Kubernetes dashboard or terminal showing the status of the pods and services after scaling.
+Commands Summary
+Apply Deployments and Services:
+
+bash
+Copy code
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+Check Pods, Services, and Deployments:
+
+bash
+Copy code
+kubectl get pods
+kubectl get services
+kubectl get deployments
+Scale the Frontend Deployment:
+
+bash
+Copy code
+kubectl scale deployment frontend-deployment --replicas=5
+Result
+The multi-container application consisting of a frontend, backend, and database is successfully deployed using Kubernetes. The frontend was scaled to handle increased load, and the status of the application was monitored through Kubernetes commands.
+
+
+
+
+
+
+19.Aim
+To create a CI/CD pipeline using GitHub Actions to automate testing, building, pushing Docker images, and deploying a containerized Flask application to a cloud platform (Heroku or AWS).
+
+Procedure
+1. Set up a GitHub Repository for the Containerized Flask Application
+Create a new GitHub repository.
+Clone the repository to your local machine and add your Flask application and necessary files.
+Example file structure:
+
+markdown
+Copy code
+flask-app/
+    app.py
+    Dockerfile
+    requirements.txt
+    .github/
+        workflows/
+            ci-cd-pipeline.yml
+app.py (Flask Application)
+python
+Copy code
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello, this is a containerized Flask application!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+requirements.txt
+makefile
+Copy code
+Flask==2.0.2
+Dockerfile
+dockerfile
+Copy code
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+2. Define a GitHub Actions Workflow File to Automate Testing and Deployment
+In your GitHub repository, create the following folder structure: .github/workflows/ci-cd-pipeline.yml
+
+Add the following contents to the ci-cd-pipeline.yml file:
+
+yaml
+Copy code
+name: CI/CD Pipeline for Flask App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Cache Docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Build Docker image
+      run: |
+        docker build -t flask-app .
+
+    - name: Test Flask app
+      run: |
+        docker run -d -p 5000:5000 flask-app
+        curl --silent --fail http://localhost:5000/ || exit 1
+        docker stop $(docker ps -q)
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker tag flask-app ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Heroku
+      uses: akshnz/heroku-deploy-action@v2
+      with:
+        api-key: ${{ secrets.HEROKU_API_KEY }}
+        app-name: ${{ secrets.HEROKU_APP_NAME }}
+3. Add Steps to Build, Test, and Push Docker Images to Docker Hub
+Build Docker Image: In the workflow, we use Docker commands to build an image from the Dockerfile.
+Test Flask App: Run a container from the built image and check if the Flask app is running by sending a request to it using curl.
+Push Docker Image: Log in to Docker Hub and push the built image to Docker Hub using docker push.
+Make sure to add the following secrets in the GitHub repository settings:
+
+DOCKER_USERNAME - Your Docker Hub username.
+DOCKER_PASSWORD - Your Docker Hub password or personal access token.
+HEROKU_API_KEY - Your Heroku API key (generated from Heroku account settings).
+HEROKU_APP_NAME - The name of your Heroku app.
+4. Deploy the Application to Heroku (or AWS)
+Heroku: This example uses the akshnz/heroku-deploy-action to deploy the app directly to Heroku.
+Set up your Heroku app if you haven’t already.
+In the GitHub Actions workflow, after building and pushing the Docker image, it deploys the app to Heroku by using the heroku-deploy-action.
+Alternatively, you can deploy to AWS by modifying the deploy job to use the AWS CLI to push the Docker image to Amazon ECS or another service.
+
+5. Test the CI/CD Pipeline
+Push a Change: Push a change to the main branch of your repository to trigger the CI/CD pipeline.
+
+Verify:
+
+Check the GitHub Actions pipeline under the "Actions" tab in your GitHub repository.
+Verify the deployment on Heroku or AWS by accessing the application URL.
+Commands Summary
+GitHub Actions Workflow File:
+
+The YAML file is stored in .github/workflows/ci-cd-pipeline.yml.
+Push to Docker Hub:
+
+docker push <username>/flask-app:latest
+Heroku Deployment:
+
+Using the action akshnz/heroku-deploy-action with your Heroku API key and app name.
+Result
+The CI/CD pipeline successfully automates the build, test, push, and deployment of the Flask application to Heroku (or AWS).
+The application is automatically built from source code, containerized into a Docker image, and deployed every time changes are pushed to the main branch.
+
+
+
+
+
+20.Aim
+To create a new GitHub repository, clone it to your local machine, edit the README.md file, and push the changes back to GitHub.
+
+Procedure
+1. Create a GitHub Repository
+Go to GitHub and log in to your account.
+On the homepage, click the + icon at the top right and select New repository.
+Name the repository (e.g., personal-project).
+Optionally, add a description for the repository.
+Select Initialize this repository with a README.
+Click Create repository.
+2. Clone the Repository to Your Local Machine
+Once the repository is created, you will be redirected to the repository page.
+
+Click the Code button, then copy the HTTPS URL (e.g., https://github.com/your-username/personal-project.git).
+
+Open your terminal (or Git Bash) on your local machine.
+
+Run the following command to clone the repository:
+
+bash
+Copy code
+git clone https://github.com/your-username/personal-project.git
+Navigate into the cloned repository:
+
+bash
+Copy code
+cd personal-project
+3. Edit the README.md File
+Open the README.md file using your preferred text editor or IDE (e.g., VS Code, Notepad++, etc.).
+
+Add a project description or any other relevant information to the README.md file. For example:
+
+markdown
+Copy code
+# Personal Project
+
+This is a personal project to track my progress in various fields, including coding, design, and more.
+
+## Features:
+- Feature 1
+- Feature 2
+- Feature 3
+Save the changes.
+
+4. Stage, Commit, and Push Your Changes to GitHub
+After editing the README.md file, go back to the terminal and run the following command to check the status of your changes:
+
+bash
+Copy code
+git status
+You should see that README.md has been modified.
+
+Stage the README.md file for commit:
+
+bash
+Copy code
+git add README.md
+Commit the changes with a meaningful message:
+
+bash
+Copy code
+git commit -m "Update project description in README.md"
+Push the changes to the remote GitHub repository:
+
+bash
+Copy code
+git push origin main
+Result
+Your changes to the README.md file will be pushed to the GitHub repository.
+Visit your repository on GitHub, and you will see the updated README.md file with the project description.
+Summary of Git Commands
+Clone the repository:
+
+bash
+Copy code
+git clone https://github.com/your-username/personal-project.git
+Check status:
+
+bash
+Copy code
+git status
+Stage the changes:
+
+bash
+Copy code
+git add README.md
+Commit the changes:
+
+bash
+Copy code
+git commit -m "Update project description in README.md"
+Push the changes to GitHub:
+
+bash
+Copy code
+git push origin main
+
+
+
+
+
+
+21.Aim
+To clone an existing GitHub repository, make a small change in one of the files, and save the changes.
+
+Procedure
+1. Choose an Existing Public GitHub Repository
+Choose any public repository from GitHub. For example, you can use your own repository or a sample repository like https://github.com/octocat/Hello-World.
+2. Clone the Repository to Your Local Machine
+On the GitHub repository page, click the Code button and copy the HTTPS URL (e.g., https://github.com/octocat/Hello-World.git).
+
+Open your terminal (or Git Bash) on your local machine.
+
+Run the following command to clone the repository:
+
+bash
+Copy code
+git clone https://github.com/octocat/Hello-World.git
+Navigate into the cloned repository directory:
+
+bash
+Copy code
+cd Hello-World
+3. Open One of the Files in the Repository
+In the cloned repository, list the files:
+
+bash
+Copy code
+ls
+Open one of the files using your preferred text editor. For example, you can open the README.md file:
+
+bash
+Copy code
+nano README.md
+Or use a graphical editor like VS Code:
+
+bash
+Copy code
+code README.md
+4. Make a Small Edit
+In the file you opened, make a small edit. For example, you could fix a typo, add a line, or modify a section of the text. For example:
+
+markdown
+Copy code
+# Hello World
+
+Welcome to the Hello World project!
+
+- This is a simple repository to learn about Git.
+Change it to:
+
+markdown
+Copy code
+# Hello World
+
+Welcome to the Hello World project!
+
+- This is a simple repository to learn about Git.
+- We've made a small change to this file.
+Save the file after making your changes.
+
+5. Commit and Push the Changes
+Go back to your terminal and check the status of the repository to see your changes:
+
+bash
+Copy code
+git status
+You should see that the file you modified is listed as "modified."
+
+Stage the file for commit:
+
+bash
+Copy code
+git add README.md
+Commit the changes with a meaningful message:
+
+bash
+Copy code
+git commit -m "Fixed a typo and added a small change to README.md"
+Push the changes to the remote repository:
+
+bash
+Copy code
+git push origin main
+Summary of Git Commands
+Clone the repository:
+
+bash
+Copy code
+git clone https://github.com/octocat/Hello-World.git
+Check status:
+
+bash
+Copy code
+git status
+Stage the changes:
+
+bash
+Copy code
+git add README.md
+Commit the changes:
+
+bash
+Copy code
+git commit -m "Fixed a typo and added a small change to README.md"
+Push the changes to GitHub:
+
+bash
+Copy code
+git push origin main
+
+
+
+
+22.Aim
+To clone a repository, modify a file, commit the changes locally, and push them to GitHub.
+
+Procedure
+1. Clone a Repository
+Choose a repository from GitHub. For example, you can use https://github.com/octocat/Hello-World.
+
+Copy the HTTPS URL of the repository (e.g., https://github.com/octocat/Hello-World.git).
+
+Open your terminal (or Git Bash) on your local machine.
+
+Clone the repository using the following command:
+
+bash
+Copy code
+git clone https://github.com/octocat/Hello-World.git
+Navigate into the cloned repository:
+
+bash
+Copy code
+cd Hello-World
+2. Modify a File (e.g., README.md)
+In the cloned repository, list the files:
+
+bash
+Copy code
+ls
+Open the README.md file using your preferred text editor. For example:
+
+bash
+Copy code
+nano README.md
+Or use a graphical editor like VS Code:
+
+bash
+Copy code
+code README.md
+Make a modification, such as adding a new line or updating the content. For example:
+
+markdown
+Copy code
+# Hello World
+
+Welcome to the Hello World project!
+
+- This is a simple repository to learn about Git.
+- We've made some changes to the README file.
+Save the changes.
+
+3. Stage the Changes with git add
+Check the status of the repository to confirm the file changes:
+
+bash
+Copy code
+git status
+The modified file (e.g., README.md) will be listed as modified.
+
+Stage the file for commit:
+
+bash
+Copy code
+git add README.md
+4. Commit the Changes with git commit -m
+Commit the changes with a meaningful commit message:
+
+bash
+Copy code
+git commit -m "Updated README"
+5. Push the Changes to GitHub Using git push
+Push the committed changes to the remote GitHub repository:
+
+bash
+Copy code
+git push origin main
+Summary of Git Commands
+Clone the repository:
+
+bash
+Copy code
+git clone https://github.com/octocat/Hello-World.git
+Check status:
+
+bash
+Copy code
+git status
+Stage the changes:
+
+bash
+Copy code
+git add README.md
+Commit the changes:
+
+bash
+Copy code
+git commit -m "Updated README"
+Push the changes to GitHub:
+
+bash
+Copy code
+git push origin main
+
+
+
+
+
+
+
+23.Aim
+To pull the latest changes from a GitHub repository after a collaborator has made updates.
+
+Procedure
+1. Clone a Repository (From Previous Questions)
+If you haven't cloned the repository already, clone it to your local machine:
+
+bash
+Copy code
+git clone https://github.com/octocat/Hello-World.git
+Navigate into the cloned repository directory:
+
+bash
+Copy code
+cd Hello-World
+2. Collaborator Makes Changes and Pushes to GitHub
+Ask your collaborator to make a change to the repository. For example, they could modify the README.md file and push it to GitHub.
+
+Your collaborator will:
+
+Modify the file (e.g., README.md).
+
+Stage and commit the changes.
+
+Push the changes to GitHub:
+
+bash
+Copy code
+git add README.md
+git commit -m "Updated README with new instructions"
+git push origin main
+3. Use git pull origin main to Pull the Latest Changes
+In your terminal (or Git Bash), navigate to the directory of your cloned repository:
+
+bash
+Copy code
+cd Hello-World
+Pull the latest changes from GitHub:
+
+bash
+Copy code
+git pull origin main
+This command fetches and merges the changes from the remote main branch into your local repository.
+
+4. Verify that the Changes Made by Your Collaborator Appear Locally
+After pulling the latest changes, verify that your collaborator's modifications are reflected in your local repository.
+
+For example, check the README.md file:
+
+bash
+Copy code
+cat README.md
+If your collaborator added new content, such as new instructions, you should be able to see it in your local README.md file.
+
+Summary of Git Commands
+Clone the repository (if not done earlier):
+
+bash
+Copy code
+git clone https://github.com/octocat/Hello-World.git
+Navigate to the repository:
+
+bash
+Copy code
+cd Hello-World
+Pull the latest changes:
+
+bash
+Copy code
+git pull origin main
+Verify the changes:
+
+bash
+Copy code
+cat README.md
+By following these steps, your local repository will be updated with the latest changes made by your collaborator.
+
+
+
+
+
+
+24.Aim
+To create a new branch called feature-login, implement a login function, and create a pull request to merge the branch into the main branch.
+
+Procedure
+1. Create a New Branch feature-login
+In your terminal (or Git Bash), navigate to your project directory:
+
+bash
+Copy code
+cd <your-project-directory>
+Ensure you are on the main branch and fetch the latest changes from GitHub:
+
+bash
+Copy code
+git checkout main
+git pull origin main
+Create and switch to a new branch called feature-login:
+
+bash
+Copy code
+git checkout -b feature-login
+2. Add a login.py File with a Simple Login Function
+Create a new file called login.py in your project directory:
+
+bash
+Copy code
+touch login.py
+Open the login.py file and add a simple login function. Example content for login.py:
+
+python
+Copy code
+def login(username, password):
+    # Hardcoded username and password for simplicity
+    if username == "user" and password == "password123":
+        return "Login successful"
+    else:
+        return "Invalid username or password"
+Save the file.
+
+3. Commit the Changes and Push Them to GitHub
+Stage the login.py file for commit:
+
+bash
+Copy code
+git add login.py
+Commit the changes with a descriptive message:
+
+bash
+Copy code
+git commit -m "Added login function in login.py"
+Push the feature-login branch to GitHub:
+
+bash
+Copy code
+git push origin feature-login
+4. Create a Pull Request from feature-login to main
+Go to your GitHub repository in the browser.
+
+GitHub will usually display a banner suggesting to create a pull request (PR) after pushing a new branch. Click on the "Compare & pull request" button.
+
+If the banner doesn't appear:
+
+Go to the "Pull requests" tab of your repository.
+Click on the "New pull request" button.
+Select feature-login as the branch you want to merge and main as the base branch.
+Add a description for your pull request (e.g., "Implement simple login function in login.py").
+
+Click on the "Create pull request" button.
+
+Summary of Git Commands
+Create and switch to feature-login branch:
+
+bash
+Copy code
+git checkout -b feature-login
+Create the login.py file and add the login function.
+
+Stage the changes:
+
+bash
+Copy code
+git add login.py
+Commit the changes:
+
+bash
+Copy code
+git commit -m "Added login function in login.py"
+Push the feature-login branch:
+
+bash
+Copy code
+git push origin feature-login
+Create the pull request on GitHub.
+
+By following these steps, you have created a new branch, added a login function, and created a pull request to merge it into the main branch.
+
+
+
+
+
+25.Aim
+To fetch the latest changes from a project, create a new branch for your feature, implement the feature, and submit a pull request to the original repository.
+
+Procedure
+1. Fork a Repository
+Go to the GitHub repository you want to work on.
+Click on the Fork button in the upper-right corner of the page.
+Select your GitHub account as the destination for the fork.
+Wait for GitHub to create a copy of the repository under your account.
+2. Clone the Repository to Your Local Machine
+Go to your forked repository on GitHub.
+
+Click on the Code button, and copy the URL (either HTTPS or SSH).
+
+Open your terminal and clone the repository to your local machine:
+
+bash
+Copy code
+git clone <repository-url>
+Navigate to the project directory:
+
+bash
+Copy code
+cd <your-repository-directory>
+3. Create a New Branch for Your Feature
+Fetch the latest changes from the original repository (i.e., the upstream repository):
+
+bash
+Copy code
+git remote add upstream <original-repository-url>
+git fetch upstream
+Merge the latest changes from the upstream repository into your local main branch:
+
+bash
+Copy code
+git checkout main
+git pull upstream main
+Create and switch to a new branch for your feature:
+
+bash
+Copy code
+git checkout -b feature-branch
+4. Implement Your Changes
+Make the necessary changes for your feature in the project (e.g., modifying or adding new files).
+
+Stage the changes:
+
+bash
+Copy code
+git add .
+Commit the changes with a meaningful message:
+
+bash
+Copy code
+git commit -m "Implemented new feature"
+Push the changes to your forked repository:
+
+bash
+Copy code
+git push origin feature-branch
+5. Submit a Pull Request to the Original Repository
+Go to your forked repository on GitHub.
+GitHub will display a prompt to Compare & pull request. Click on that button.
+Select the branch you created (feature-branch) and compare it to the main branch of the original repository.
+Add a description for the pull request (e.g., "Implemented new feature: [feature name]").
+Click on the Create pull request button to submit your changes.
+Summary of Git Commands
+Fork the repository on GitHub.
+
+Clone the repository to your local machine:
+
+bash
+Copy code
+git clone <repository-url>
+Add the upstream remote and fetch the latest changes:
+
+bash
+Copy code
+git remote add upstream <original-repository-url>
+git fetch upstream
+Create a new branch for your feature:
+
+bash
+Copy code
+git checkout -b feature-branch
+Stage, commit, and push your changes:
+
+bash
+Copy code
+git add .
+git commit -m "Implemented new feature"
+git push origin feature-branch
+Submit a pull request to the original repository.
+
+By following these steps, you fetch the latest changes, create a new branch for your feature, implement your changes, and submit a pull request to the original repository.
+
+
+
+
+
+
