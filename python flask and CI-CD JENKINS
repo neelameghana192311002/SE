@@ -1,0 +1,144 @@
+Q. Create a Python Flask API, Containerize & Deploy Using Kubernetes
+Aim
+To build, containerize, and deploy a Python Flask API using Kubernetes.
+
+Apparatus/Tools
+Python
+Docker
+Kubernetes
+Procedure
+Create a Flask API (app.py)
+
+python
+Copy code
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello, Kubernetes!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+Write a Dockerfile
+
+Dockerfile
+Copy code
+FROM python:3.9-slim
+WORKDIR /app
+COPY . .
+RUN pip install flask
+CMD ["python", "app.py"]
+Build and Push the Docker Image
+
+bash
+Copy code
+docker build -t <your-dockerhub-username>/flask-api .
+docker push <your-dockerhub-username>/flask-api
+Create Kubernetes Deployment and Service Manifests
+
+deployment.yaml:
+
+yaml
+Copy code
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      containers:
+      - name: flask-api
+        image: <your-dockerhub-username>/flask-api
+        ports:
+        - containerPort: 5000
+service.yaml:
+
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-api-service
+spec:
+  type: NodePort
+  selector:
+    app: flask-api
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+    nodePort: 30000
+Apply Kubernetes Manifests
+
+bash
+Copy code
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+Access the API
+
+Visit http://<Node-IP>:30000 in your browser or use curl.
+Result
+Successfully deployed a Flask API using Docker and Kubernetes.
+
+
+
+Q.  Set Up a CI/CD Pipeline Using Jenkins
+Aim
+To automate building, testing, and deployment of a containerized application using Jenkins.
+
+Apparatus/Tools
+Jenkins
+Docker
+Procedure
+Set Up Jenkins
+
+Install Jenkins on a local machine or server.
+Install required plugins: Docker Pipeline, GitHub.
+Create a Dockerfile
+
+Create a simple containerized app using a Dockerfile.
+Write a Jenkinsfile
+
+groovy
+Copy code
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t <your-dockerhub-username>/sample-app .'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'docker run <your-dockerhub-username>/sample-app test'
+            }
+        }
+        stage('Push') {
+            steps {
+                sh 'docker push <your-dockerhub-username>/sample-app'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
+Configure Jenkins Project
+
+Link the project repository to Jenkins.
+Set up triggers for builds on code commits.
+Result
+Successfully implemented an automated CI/CD pipeline using Jenkins.
