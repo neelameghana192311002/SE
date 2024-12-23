@@ -1,0 +1,195 @@
+Here is a detailed format for tasks 21-25 with **Aim**, **Apparatus**, **Procedure** (7-8 points), **Result**, and **Output**:
+
+---
+
+### Task 21: Clone an existing GitHub repository to your local machine and make a small change in one of the files
+
+**Aim**:  
+To clone an existing GitHub repository to your local machine and make a small modification to one of the files.
+
+**Apparatus**:
+- Git installed on your machine.
+- GitHub account and access to a public repository.
+
+**Procedure**:
+1. Open a terminal or command prompt.
+2. Clone the repository by running the command:
+   ```bash
+   git clone <repository_url>
+   ```
+3. Navigate into the cloned repository directory:
+   ```bash
+   cd <repository_name>
+   ```
+4. Open one of the files (e.g., README.md or any code file) in a text editor.
+5. Modify the content of the file, such as correcting a typo or changing a line.
+6. Save the file after making changes.
+7. Check the status of the repository using `git status` to confirm changes.
+8. The change is now made locally.
+
+**Result**:
+- The repository is successfully cloned to your local machine, and a small modification is made to one of the files.
+
+**Output**:
+- The file is updated with the change made on your local repository.
+
+---
+
+### Task 22: After modifying a file in a cloned repository, commit the changes locally and push them to GitHub
+
+**Aim**:  
+To commit the local changes after modifying a file and push those changes to GitHub.
+
+**Apparatus**:
+- Git installed on your machine.
+- A cloned GitHub repository.
+
+**Procedure**:
+1. After modifying a file (e.g., README.md), open the terminal.
+2. Stage the changes using the following command:
+   ```bash
+   git add <filename>
+   ```
+3. Check the status to ensure the file is staged:
+   ```bash
+   git status
+   ```
+4. Commit the changes with a descriptive message:
+   ```bash
+   git commit -m "Updated README"
+   ```
+5. Push the changes to the GitHub repository:
+   ```bash
+   git push origin main
+   ```
+6. Enter your GitHub credentials if prompted.
+7. Verify the changes have been pushed by checking the GitHub repository.
+
+**Result**:
+- The changes are committed locally and pushed to the GitHub repository.
+
+**Output**:
+- The file in the GitHub repository reflects the modifications made locally.
+
+---
+
+### Task 23: Pull the latest changes from GitHub to keep your local copy up to date
+
+**Aim**:  
+To pull the latest changes made by collaborators from GitHub to your local repository.
+
+**Apparatus**:
+- Git installed on your machine.
+- A cloned GitHub repository.
+
+**Procedure**:
+1. Open a terminal or command prompt.
+2. Navigate to the directory of the cloned repository:
+   ```bash
+   cd <repository_name>
+   ```
+3. Run the following command to pull the latest changes:
+   ```bash
+   git pull origin main
+   ```
+4. If there are no conflicts, the latest changes will be merged into your local repository.
+5. Check the status using `git status` to ensure the pull is complete.
+6. If there are conflicts, resolve them manually and commit the changes.
+7. Verify that the changes made by your collaborator are now reflected locally.
+
+**Result**:
+- Your local repository is now up-to-date with the latest changes from GitHub.
+
+**Output**:
+- Your local repository reflects the updated code with the collaborator's changes.
+
+---
+
+### Task 24: Create a new branch called `feature-login` and implement a simple login function in a `login.py` file
+
+**Aim**:  
+To create a new branch, implement a simple login function, and create a pull request to merge the feature into the main branch.
+
+**Apparatus**:
+- Git installed on your machine.
+- A GitHub account and access to a repository.
+
+**Procedure**:
+1. Open a terminal and navigate to your repository directory.
+2. Create a new branch called `feature-login`:
+   ```bash
+   git checkout -b feature-login
+   ```
+3. Create a new file called `login.py` and add a simple login function:
+   ```python
+   def login(username, password):
+       if username == "admin" and password == "password":
+           return "Login successful"
+       else:
+           return "Login failed"
+   ```
+4. Stage the changes with `git add login.py`.
+5. Commit the changes with the following command:
+   ```bash
+   git commit -m "Added login function"
+   ```
+6. Push the new branch to GitHub:
+   ```bash
+   git push origin feature-login
+   ```
+7. On GitHub, create a pull request from the `feature-login` branch to `main`.
+
+**Result**:
+- The `feature-login` branch is created and pushed, and the pull request is submitted.
+
+**Output**:
+- A pull request is visible on GitHub for merging the feature into the main branch.
+
+---
+
+### Task 25: Fork a repository, create a new branch, and implement your feature without affecting existing code
+
+**Aim**:  
+To fork a repository, create a new branch, implement a feature, and submit a pull request.
+
+**Apparatus**:
+- Git installed on your machine.
+- GitHub account and access to the repository.
+
+**Procedure**:
+1. Fork the repository on GitHub by clicking the "Fork" button on the repository page.
+2. Clone the forked repository to your local machine:
+   ```bash
+   git clone <forked_repository_url>
+   ```
+3. Navigate to the cloned repository:
+   ```bash
+   cd <repository_name>
+   ```
+4. Create a new branch for your feature:
+   ```bash
+   git checkout -b feature-branch
+   ```
+5. Implement the necessary changes for your feature.
+6. Stage the changes:
+   ```bash
+   git add .
+   ```
+7. Commit the changes with a message:
+   ```bash
+   git commit -m "Implemented new feature"
+   ```
+8. Push the feature branch to your forked repository:
+   ```bash
+   git push origin feature-branch
+   ```
+
+**Result**:
+- A new feature branch is created, and the feature is implemented and pushed to your forked repository.
+
+**Output**:
+- A pull request is created on GitHub, awaiting review and merging into the original repository.
+
+---
+
+These are the procedures for tasks 21-25 formatted with the required sections and detailed steps. Let me know if you need further modifications!
