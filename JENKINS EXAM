@@ -1,0 +1,55 @@
+### **Experiment: Set up a CI/CD pipeline to automate the building, testing, and deployment of a containerized application**
+
+---
+
+#### **Aim:**
+To establish a CI/CD pipeline using Jenkins to automate the building, testing, and deployment of a containerized application.
+
+---
+
+#### **Apparatus/Tools Required:**
+1. **Software:**
+   - Jenkins (installed on a local machine or server)
+   - Docker (installed on the machine running Jenkins)
+   - Git (repository for source code)
+   - Cloud platform account (e.g., AWS, GCP)
+   - Sample application source code
+   - Required Jenkins plugins: Docker Pipeline, GitHub, Pipeline
+
+2. **Hardware:**
+   - A local machine or a server with sufficient resources (CPU, RAM, storage)
+
+---
+
+#### **Procedure:**
+1. **Install and Set Up Jenkins:**
+   - Install Jenkins on a local machine or server and start it. 
+   - Install required plugins like Docker Pipeline and GitHub.
+
+2. **Write the Dockerfile:**
+   - Create a `Dockerfile` in the application's root directory to containerize the application.
+   - Test the Docker image locally using `docker build` and `docker run`.
+
+3. **Create a Jenkinsfile:**
+   - Write a `Jenkinsfile` defining the stages: fetching the repository, building the Docker container, running tests, and deploying to a cloud platform.
+
+4. **Configure Jenkins with GitHub:**
+   - Set up Jenkins to fetch the repository and configure a webhook in GitHub to trigger builds automatically upon commits or pull requests.
+
+5. **Execute and Verify:**
+   - Run the pipeline in Jenkins to validate the build process, test execution, and successful deployment to the cloud.
+
+---
+
+#### **Result:**
+The CI/CD pipeline was successfully configured to automate:
+1. Building the Docker container for the application.
+2. Running tests to validate the application's functionality.
+3. Deploying the containerized application to a cloud platform.
+
+---
+
+#### **Output:**
+1. Jenkins executed the pipeline and displayed logs for each stage.
+2. The containerized application was deployed to the configured cloud platform (e.g., AWS or GCP).
+3. A fully automated CI/CD pipeline was established, ensuring efficient and error-free deployment.
