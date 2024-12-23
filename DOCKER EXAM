@@ -1,0 +1,86 @@
+### **Experiment: Pushing and Pulling a Docker Image to/from a Docker Registry**
+
+---
+
+#### **Aim:**
+To demonstrate how to push a locally built Docker image to a Docker registry and pull it back for use on another system.
+
+---
+
+#### **Apparatus/Tools Required:**
+1. **Software:**
+   - Docker (installed on the local machine)
+   - Access to a Docker registry (e.g., Docker Hub, AWS ECR, GCP Container Registry)
+   - Sample application source code with a Dockerfile
+
+2. **Hardware:**
+   - A machine with sufficient resources to build and run Docker images (CPU, RAM, and storage)
+   - Internet connectivity for interacting with the Docker registry
+
+---
+
+#### **Procedure:**
+
+1. **Build a Docker Image:**
+   - Create a `Dockerfile` in the application’s root directory.
+   - Build the image using the command:
+     ```bash
+     docker build -t <registry-username>/sample-app:1.0 .
+     ```
+
+2. **Log in to the Docker Registry:**
+   - Authenticate to the Docker registry using:
+     ```bash
+     docker login
+     ```
+   - Enter your credentials (username and password).
+
+3. **Push the Image to the Registry:**
+   - Push the image to the Docker registry using:
+     ```bash
+     docker push <registry-username>/sample-app:1.0
+     ```
+
+4. **Verify the Image on the Registry:**
+   - Log in to the Docker registry's web interface to confirm that the image was successfully uploaded.
+
+5. **Pull the Image from the Registry:**
+   - On another machine or the same machine, pull the image using:
+     ```bash
+     docker pull <registry-username>/sample-app:1.0
+     ```
+
+6. **Run the Pulled Image:**
+   - Test the pulled image by running it as a container:
+     ```bash
+     docker run -d -p 8080:3000 <registry-username>/sample-app:1.0
+     ```
+
+MAIN
+create a python file called first.py
+keep your Docker file and python file in a folder and name it as Docker
+
+open the Docker file and type cmd in the path (it will visible in the above as like a search bar)
+
+do this in command prompt :
+to build image = docker build -t pythonversion-image name(you can give any name for image)
+>>docker build -t python3124-trial .
+>>docker run python3124-trial
+>>docker login
+to create tag = (lakshmireddy269 is my user name for docker desktop u have to create your own)
+>>docker tag python3124-trial lakshmireddy269/python3124-trial
+to push = 
+>>docker push lakshmireddy269/python3124-trial
+to verify = 
+>>docker ps
+
+---
+
+#### **Result:**
+The Docker image was successfully pushed to the registry and later pulled back for use, demonstrating the image-sharing workflow.
+
+---
+
+#### **Output:**
+1. The Docker image `<registry-username>/sample-app:1.0` was visible in the registry.
+2. The pulled image was successfully run as a container, validating the image’s portability and functionality.
