@@ -1,0 +1,89 @@
+Great! Now that you've created tasks in your backlog (TM-5 to TM-8), let's proceed with the following steps:
+
+---
+
+## 📌 *Step 1: Verify Your Backlog Items*
+
+Make sure the tasks have the correct summaries and descriptions:
+
+1. *TM-5*: User Login and Role Assignment  
+2. *TM-6*: Task Creation and Assignment  
+3. *TM-7*: Task Prioritization and Deadlines  
+4. *TM-8*: Progress Tracking and Reporting  
+
+---
+
+## 📌 *Step 2: Prioritize the Backlog Using MoSCoW and Kano Models*
+
+### 1. *Add MoSCoW Prioritization*:
+   - Open each issue (TM-5 to TM-8).
+   - In each issue:
+     - Click on the *"Labels"* field or *"More Fields"*.
+     - Add one of the following labels for MoSCoW prioritization:
+       - *TM-5* → Label: Must-Have  
+       - *TM-6* → Label: Must-Have  
+       - *TM-7* → Label: Should-Have  
+       - *TM-8* → Label: Should-Have  
+
+### 2. *Add Kano Model Categorization*:
+   - In each issue:
+     - Add another label for Kano categorization:
+       - *TM-5* → Label: Basic-Need  
+       - *TM-6* → Label: Basic-Need  
+       - *TM-7* → Label: Performance-Need  
+       - *TM-8* → Label: Performance-Need  
+
+---
+
+## 📌 *Step 3: Create a Sprint*
+
+1. *Go to the Backlog View*:
+   - Navigate to your project’s *Backlog*.
+
+2. *Create a New Sprint*:
+   - Click on *"Create Sprint"* (usually at the top of the backlog).
+
+3. *Move Backlog Items into the Sprint*:
+   - Drag and drop *TM-5, **TM-6, **TM-7, and **TM-8* into the newly created sprint.
+
+4. *Start the Sprint*:
+   - Click *"Start Sprint."*
+   - Enter the following details:
+     - *Sprint Name*: Task Management Sprint 1  
+     - *Duration*: 1 Week  
+     - *Start Date*: Today’s date  
+     - *End Date*: 7 days from today  
+   - Click *"Start"* to begin the sprint.
+
+---
+
+## 📌 *Step 4: Track Progress*
+
+1. *View the Sprint Board*:
+   - Go to the *"Active Sprints"* or *"Board"* view.
+   - You will see your tasks (TM-5 to TM-8) in the *"To Do"* column.
+
+2. *Update Task Status*:
+   - As work progresses, move tasks across the columns:
+     - *To Do → In Progress → Done*
+
+---
+
+## 📌 *Step 5: Take Screenshots*
+
+1. *Sprint Start Screenshot*:
+   - Take a screenshot of the sprint board showing the tasks in the *"To Do"* column.
+
+2. *Sprint End Screenshot*:
+   - Once all tasks are completed and moved to *"Done"*, take another screenshot of the sprint board.
+
+---
+
+Now you've successfully:
+
+1. Created tasks.
+2. Prioritized them using MoSCoW and Kano models.
+3. Created and started a sprint.
+4. Tracked progress and captured the sprint board at the start and end.
+
+Let me know if you need further assistance! 😊
