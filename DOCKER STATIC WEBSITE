@@ -1,0 +1,66 @@
+Step 1: Set Up Your Project
+Open a Text Editor:
+
+Use any text editor you’re comfortable with (e.g., Notepad, Visual Studio Code, or Sublime Text).
+Create a New Folder:
+
+On your desktop or preferred location, create a folder named static-website.
+Create the HTML File:
+
+Inside the static-website folder, create a file named index.html.
+Copy and paste this content into the file:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+</head>
+<body>
+    <h1>Welcome to My Static Website</h1>
+    <p>This is a simple static website served using Docker and Nginx.</p>
+</body>
+</html>
+SAVE
+
+Step 2: Write the Dockerfile
+Open the static-website Folder in the Text Editor:
+
+Open your folder (static-website) in Visual Studio Code or your chosen editor.
+Create a New File Named Dockerfile:
+
+Right-click inside the folder, select New File, and name it Dockerfile.
+Add the Dockerfile Content:
+
+Paste the following content into the Dockerfile: 
+
+# Use the official Nginx image as the base image
+FROM nginx:latest
+
+# Copy the static website files to the default Nginx location
+COPY ./index.html /usr/share/nginx/html/index.html
+
+# Expose the port on which Nginx runs
+EXPOSE 80
+
+SAVE THE Dockerfile
+
+open cmd on path....
+
+open docker and in terminal type :    docker build -t static-website .
+
+NOW :  docker run -d -p 9090:80 --name static-website-container static-website
+docker ps
+ACCESS WEBSITE : http://localhost:9090
+
+
+
+
+if need to stop : docker stop static-website-container
+to remove :  docker rm static-website-container
+
+
+
+
+
