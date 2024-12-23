@@ -1,0 +1,26 @@
+BRANCH
+
+git branch -a
+git branch new
+git branch -A
+git checkout new
+<p>welcome</p> vscode
+git add .
+git commit -m 'branch create'
+git push origin new
+
+search in branches - new....pull requests , new pull request/compare pull request---------base: main , compare : new 
+create pull request ---DESCRIPTION : from new / anything
+merge pull request -- confirm merge
+
+MERGE USING VSCODE
+
+main to new branch ?
+git checkout new
+<p>learning</p>
+git add .
+git commit -m 'deuh'
+git push origin new
+git checkout main
+git merge new
+THATS IT
