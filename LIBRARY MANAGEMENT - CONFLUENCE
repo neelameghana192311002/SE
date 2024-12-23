@@ -1,0 +1,85 @@
+5. Let's start from the beginning and *create the necessary Jira issues* for the Library Management System project. Here’s a step-by-step guide to create the issues and link them to Confluence.
+
+---
+
+## 📝 *Step-by-Step Guide to Create Jira Issues*
+
+### *1. Create a New Scrum Project in Jira*
+
+1. *Log in to Jira*:  
+   - Go to [https://www.atlassian.com/software/jira](https://www.atlassian.com/software/jira).
+   
+2. *Create a New Project*:  
+   - Click on the *“Projects”* tab in the top menu.  
+   - Click *“Create Project.”*  
+   - Select the *“Scrum”* template and click *“Use Template.”*
+
+3. *Project Details*:  
+   - *Project Name*: Library Management System  
+   - *Project Key*: LMS (Jira will auto-generate it, but you can customize it).  
+   - Click *“Create”* to finalize the project.
+
+---
+
+### *2. Create Jira Issues (Tasks)*
+
+1. Navigate to your new *Library Management System* project.
+2. Click on the *“Backlog”* or *“Create”* button to add new issues.
+
+3. *Add the Following Issues*:
+
+   | *Issue Key* | *Summary*                               | *Issue Type* |
+   |---------------|-------------------------------------------|---------------|
+   | *LMS-101*  | Develop book search functionality         | Task          |
+   | *LMS-102*  | Create user login page                    | Task          |
+   | *LMS-103*  | Implement book reservation system         | Task          |
+   | *LMS-104*  | Generate monthly reports                  | Task          |
+   | *LMS-105*  | Add QR code scanning for borrowing        | Task          |
+
+4. *Steps to Create Each Issue*:  
+   - Click *“Create”*.  
+   - Fill in the details:  
+     - *Summary*: Enter the task title (e.g., “Develop book search functionality”).  
+     - *Issue Type: Select **“Task.”*  
+   - Click *“Create”* to save each issue.
+
+---
+
+### *3. Confirm Issues in the Backlog*
+
+1. Go to the *Backlog* view of your project.
+2. You should see all the newly created issues:
+   - *LMS-101*  
+   - *LMS-102*  
+   - *LMS-103*  
+   - *LMS-104*  
+   - *LMS-105*
+
+---
+
+## 🔗 *4. Link Jira Issues in Confluence*
+
+Now that your Jira issues are created, let’s embed them in a Confluence page.
+
+1. Go to *Confluence* and navigate to your project space (e.g., *“Library Management System”* space).
+2. Click *“Create”* to add a new page.
+3. Title the page: *“Library Management System Project Overview”*.
+4. Click *“Edit”* to modify the page.
+
+5. *Embed the Jira Issues*:
+   - Click the *“+” button* in the toolbar.
+   - Select *“Jira Issue/Filter”*.
+   - Search for each issue by key (e.g., *LMS-101, **LMS-102*).
+   - Click *“Insert”* to add each issue to the page.
+
+6. *Add a Progress Bar*:
+   - Type /progress to insert a *Progress Bar* macro.
+   - Configure the percentage based on completed tasks (e.g., 0% if none are done).
+
+7. Click *“Publish”* to save the page.
+
+---
+
+## ✅ *You’re All Set!*
+
+Your Confluence page should now display the embedded Jira issues and a progress bar for tracking completion. Let me know if you need further assistance!
