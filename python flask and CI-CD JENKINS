@@ -61,8 +61,8 @@ spec:
         image: <your-dockerhub-username>/flask-api
         ports:
         - containerPort: 5000
-service.yaml:
 
+service.yaml:
 yaml
 Copy code
 apiVersion: v1
