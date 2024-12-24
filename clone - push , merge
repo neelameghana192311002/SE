@@ -2,7 +2,8 @@ create new repo....readme and open code and copy https link
 
 now open local disk :c  and open git bash ......git clone <link> and press enter
 
-now cloned to local repository ....create text file with some matter and open gitbash.....type   --git status u will get as untracked file
+now cloned to local repository ....create text file with some matter and open gitbash.....type   --git status 
+u will get as untracked file
 
 -  git add .   ,   -  git commit -m "first file added"     ,   -  git push      ,    now u will see some msg and if u open repository u will fing the tet document
 
